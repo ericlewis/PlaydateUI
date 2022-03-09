@@ -3,17 +3,13 @@ import "CoreLibs/graphics"
 
 local gfx <const> = playdate.graphics
 
-View('Text', { isLeaf = true })
+-- public
+_LeafView('Text', { isLeaf = true })
 function Text:init(text)
     self.text = text or ""
 end
+
+-- internal
 function Text:draw()
-    local x, y = self:calculateDrawingPosition()
-    gfx.drawTextInRect(
-            self.text,
-            x,
-            y,
-            self.node:getWidth(),
-            self.node:getHeight()
-    )
+    gfx.drawTextInRect(self.text, self:_getComputedLayout())
 end

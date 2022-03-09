@@ -3,13 +3,10 @@ import "CoreLibs/graphics"
 
 local gfx <const> = playdate.graphics
 
-View('Rectangle', { isLeaf = true })
+-- public
+_LeafView('Rectangle', { isLeaf = true })
+
+--internal
 function Rectangle:draw()
-    local x, y = self:calculateDrawingPosition()
-    gfx.fillRect(
-            x,
-            y,
-            self.node:getWidth(),
-            self.node:getHeight()
-    )
+    gfx.fillRect(self:_getComputedLayout())
 end

@@ -1,0 +1,1 @@
+function ui_log(msg) print("ui:", msg) end

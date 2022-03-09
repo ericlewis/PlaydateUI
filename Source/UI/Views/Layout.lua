@@ -1,11 +1,9 @@
 import "UI/Views"
 
-View 'VStack'
-function VStack:init(children)
+View '_Layout'
+function _Layout:init(children)
     self.children = children or {}
 end
 
-View 'HStack'
-function HStack:init(children)
-    self.children = children or {}
-end
+class('VStack').extends(_Layout)
+class('HStack').extends(_Layout)

@@ -1,5 +1,6 @@
 import "UI/Internal/Render"
 
+-- TODO: clean this mess up
 function Root(viewClosure)
     local handlers = {
         AButtonUp = function()

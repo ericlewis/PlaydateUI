@@ -1,12 +1,15 @@
 import "CoreLibs/graphics"
 import "State"
+import "Log"
 
 local gfx <const> = playdate.graphics
+local milli <const> = playdate.getCurrentTimeMilliseconds
 
-local flexDirectionColumn = 0
-local flexDirectionRow = 2
+local flexDirectionColumn <const> = 0
+local flexDirectionRow <const> = 2
 
 function render(_rootView)
+    local start = milli()
     gfx.clear()
     local rootNode = yoga.node()
     rootNode:setWidth(400)
@@ -67,4 +70,5 @@ function render(_rootView)
     end
     rootNode = nil
     rootView = nil
+    ui_log(table.concat({"draw took ~", (milli() - start), "ms."}))
 end
