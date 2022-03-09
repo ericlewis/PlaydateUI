@@ -2,3 +2,4 @@
 *.pdx
 cmake-build*/
 .idea
+.dylib
