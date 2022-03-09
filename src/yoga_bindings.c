@@ -8,6 +8,22 @@ typedef struct {
     const char *text;
 } Context;
 
+static void* pd_realloc(void* ptr, size_t size) {
+    return pd->system->realloc(ptr, size);
+}
+
+static void* pd_malloc(size_t size) {
+    return pd_realloc(NULL, size);
+}
+
+static void* pd_calloc(size_t count, size_t size) {
+    return memset(pd_malloc(count * size), 0, count * size);
+}
+
+static void pd_free(void* ptr) {
+    pd_realloc(ptr, 0);
+}
+
 static YGSize _textMeasurement(
         YGNodeRef node,
         float width,
@@ -37,7 +53,7 @@ static int yoga_newObject(lua_State *L) {
     // handle text nodes
     if (pd->lua->getArgCount() > 0 && pd->lua->getArgType(1, NULL) == kTypeString) {
         const char *text = pd->lua->getArgString(1);
-        Context *context = (Context *) pd->system->realloc(NULL, sizeof(Context));
+        Context *context = (Context *) pd_malloc(sizeof(Context));
         context->text = text;
         YGNodeSetContext(node, context);
         YGNodeSetMeasureFunc(node, _textMeasurement);
@@ -51,7 +67,7 @@ static int yoga_gc(lua_State *L) {
     if (!node) return 0;
     void *context = YGNodeGetContext(node);
     if (context != NULL) {
-        pd->system->realloc(context, 0);
+        pd_free(context);
         YGNodeSetContext(node, NULL);
     }
     YGNodeFree(node);
@@ -228,22 +244,6 @@ static const lua_reg yogaLib[] =
                 {"appendChild",       yoga_appendChild},
                 {NULL, NULL}
         };
-
-static void* pd_malloc(size_t size) {
-    return pd->system->realloc(NULL, size);
-}
-
-static void* pd_calloc(size_t count, size_t size) {
-    return memset(pd_malloc(count * size), 0, count * size);
-}
-
-static void* pd_realloc(void* ptr, size_t size) {
-    return pd->system->realloc(ptr, size);
-}
-
-static void pd_free(void* ptr) {
-    pd->system->realloc(ptr, 0);
-}
 
 void registerYoga(PlaydateAPI *playdate) {
     pd = playdate;
