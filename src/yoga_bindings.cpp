@@ -59,6 +59,12 @@ static int yoga_newObject(lua_State *L) {
 
 static int yoga_gc(lua_State *L) {
     const YGNodeRef node = getNode();
+    if (!node) return 0;
+    void* context = YGNodeGetContext(node);
+    if (context != nullptr) {
+        pd->system->realloc(context, 0);
+        YGNodeSetContext(node, nullptr);
+    }
     YGNodeFree(node);
     return 0;
 }
