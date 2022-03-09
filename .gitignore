@@ -1,0 +1,4 @@
+*.log
+*.pdx
+cmake-build*/
+.idea
