@@ -1,5 +1,6 @@
 *.log
 *.pdx
 cmake-build*/
-.idea
-.dylib
+.idea/
+*.dylib
+*.bin
