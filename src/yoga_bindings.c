@@ -50,9 +50,9 @@ static int yoga_gc(lua_State *L) {
     const YGNodeRef node = getSelfNode();
     if (!node) return 0;
     void *context = YGNodeGetContext(node);
-    if (context != nullptr) {
+    if (context != NULL) {
         pd->system->realloc(context, 0);
-        YGNodeSetContext(node, nullptr);
+        YGNodeSetContext(node, NULL);
     }
     YGNodeFree(node);
     return 0;
@@ -113,8 +113,7 @@ static int yoga_setFlexBasis(lua_State *L) {
 }
 
 static int yoga_setFlexDirection(lua_State *L) {
-    YGNodeStyleSetFlexDirection(getSelfNode(),
-                                static_cast<YGFlexDirection>(pd->lua->getArgInt(2)));
+    YGNodeStyleSetFlexDirection(getSelfNode(), (pd->lua->getArgInt(2)));
     return 0;
 }
 
@@ -179,20 +178,17 @@ static int yoga_calculateLayout(lua_State *L) {
 }
 
 static int yoga_setAlignItems(lua_State *L) {
-    YGNodeStyleSetAlignItems(getSelfNode(),
-                             static_cast<YGAlign>(pd->lua->getArgInt(2)));
+    YGNodeStyleSetAlignItems(getSelfNode(), (pd->lua->getArgInt(2)));
     return 0;
 }
 
 static int yoga_setJustifyContent(lua_State *L) {
-    YGNodeStyleSetJustifyContent(getSelfNode(),
-                                 static_cast<YGJustify>(pd->lua->getArgInt(2)));
+    YGNodeStyleSetJustifyContent(getSelfNode(), (pd->lua->getArgInt(2)));
     return 0;
 }
 
 static int yoga_setAlignContent(lua_State *L) {
-    YGNodeStyleSetAlignContent(getSelfNode(),
-                               static_cast<YGAlign>(pd->lua->getArgInt(2)));
+    YGNodeStyleSetAlignContent(getSelfNode(), (pd->lua->getArgInt(2)));
     return 0;
 }
 
@@ -233,8 +229,28 @@ static const lua_reg yogaLib[] =
                 {NULL, NULL}
         };
 
+static void* pd_malloc(size_t size) {
+    return pd->system->realloc(NULL, size);
+}
+
+static void* pd_calloc(size_t count, size_t size) {
+    return memset(pd_malloc(count * size), 0, count * size);
+}
+
+static void* pd_realloc(void* ptr, size_t size) {
+    return pd->system->realloc(ptr, size);
+}
+
+static void pd_free(void* ptr) {
+    pd->system->realloc(ptr, 0);
+}
+
 void registerYoga(PlaydateAPI *playdate) {
     pd = playdate;
+
+    // setup yoga's memory functions
+    YGSetMemoryFuncs(pd_malloc, pd_calloc, pd_realloc, pd_free);
+
     const char *err;
     if (!pd->lua->registerClass(name, yogaLib, NULL, 0, &err)) {
         pd->system->logToConsole("%s:%i: registerClass failed, %s", __FILE__, __LINE__, err);
