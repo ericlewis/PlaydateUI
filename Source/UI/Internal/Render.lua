@@ -29,6 +29,13 @@ function render(_rootView)
                 local node = yoga.node(view.text)
                 view.node = node
                 parentNode:appendChild(node)
+            elseif view.imageSize then
+                local width, height = table.unpack(view.imageSize)
+                local node = yoga.node()
+                node:setWidth(width)
+                node:setHeight(height)
+                view.node = node
+                parentNode:appendChild(node)
             else
                 local node = yoga.node()
                 view.node = node

@@ -2,6 +2,7 @@ import "UI/Views"
 import "UI/Views/Root"
 import "UI/Views/Layout"
 import "UI/Views/Text"
+import "UI/Views/Image"
 
 View('TestView', { count = 0 })
 function TestView:body()
@@ -35,7 +36,8 @@ function ContentView:body()
     return HStack {
         Text("Count: "..self.count * 10),
         Text("Count2: "..self.count),
-        TestView({title = "testing"..self.count})
+        TestView({title = "testing"..self.count}),
+        Image("Images/SignAvoid")
     }
 end
 
