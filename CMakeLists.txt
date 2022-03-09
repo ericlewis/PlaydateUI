@@ -23,8 +23,8 @@ endif()
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
-set(PLAYDATE_GAME_NAME uiLibrary)
-set(PLAYDATE_GAME_DEVICE uiLibrary_DEVICE)
+set(PLAYDATE_GAME_NAME PlaydateUI)
+set(PLAYDATE_GAME_DEVICE PlaydateUI_DEVICE)
 
 project(${PLAYDATE_GAME_NAME} C ASM)
 
