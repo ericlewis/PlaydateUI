@@ -1,155 +1,116 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ * All rights reserved.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  */
 
 #pragma once
 
 #include "YGMacros.h"
 
-#ifdef __cplusplus
-namespace facebook {
-namespace yoga {
-namespace enums {
-
-template <typename T>
-constexpr int count(); // can't use `= delete` due to a defect in clang < 3.9
-
-namespace detail {
-template <int... xs>
-constexpr int n() {
-  return sizeof...(xs);
-}
-} // namespace detail
-
-} // namespace enums
-} // namespace yoga
-} // namespace facebook
-#endif
-
-#define YG_ENUM_DECL(NAME, ...)                               \
-  typedef YG_ENUM_BEGIN(NAME){__VA_ARGS__} YG_ENUM_END(NAME); \
-  WIN_EXPORT const char* NAME##ToString(NAME);
-
-#ifdef __cplusplus
-#define YG_ENUM_SEQ_DECL(NAME, ...)  \
-  YG_ENUM_DECL(NAME, __VA_ARGS__)    \
-  YG_EXTERN_C_END                    \
-  namespace facebook {               \
-  namespace yoga {                   \
-  namespace enums {                  \
-  template <>                        \
-  constexpr int count<NAME>() {      \
-    return detail::n<__VA_ARGS__>(); \
-  }                                  \
-  }                                  \
-  }                                  \
-  }                                  \
-  YG_EXTERN_C_BEGIN
-#else
-#define YG_ENUM_SEQ_DECL YG_ENUM_DECL
-#endif
-
 YG_EXTERN_C_BEGIN
 
-YG_ENUM_SEQ_DECL(
-    YGAlign,
-    YGAlignAuto,
-    YGAlignFlexStart,
-    YGAlignCenter,
-    YGAlignFlexEnd,
-    YGAlignStretch,
-    YGAlignBaseline,
-    YGAlignSpaceBetween,
-    YGAlignSpaceAround);
+typedef enum YGFlexDirection {
+  YGFlexDirectionColumn,
+  YGFlexDirectionColumnReverse,
+  YGFlexDirectionRow,
+  YGFlexDirectionRowReverse,
+  YGFlexDirectionCount,
+} YGFlexDirection;
 
-YG_ENUM_SEQ_DECL(YGDimension, YGDimensionWidth, YGDimensionHeight)
+typedef enum YGMeasureMode {
+  YGMeasureModeUndefined,
+  YGMeasureModeExactly,
+  YGMeasureModeAtMost,
+  YGMeasureModeCount,
+} YGMeasureMode;
 
-YG_ENUM_SEQ_DECL(
-    YGDirection,
-    YGDirectionInherit,
-    YGDirectionLTR,
-    YGDirectionRTL)
+typedef enum YGPrintOptions {
+  YGPrintOptionsLayout = 1,
+  YGPrintOptionsStyle = 2,
+  YGPrintOptionsChildren = 4,
+  YGPrintOptionsCount,
+} YGPrintOptions;
 
-YG_ENUM_SEQ_DECL(YGDisplay, YGDisplayFlex, YGDisplayNone)
+typedef enum YGEdge {
+  YGEdgeLeft,
+  YGEdgeTop,
+  YGEdgeRight,
+  YGEdgeBottom,
+  YGEdgeStart,
+  YGEdgeEnd,
+  YGEdgeHorizontal,
+  YGEdgeVertical,
+  YGEdgeAll,
+  YGEdgeCount,
+} YGEdge;
 
-YG_ENUM_SEQ_DECL(
-    YGEdge,
-    YGEdgeLeft,
-    YGEdgeTop,
-    YGEdgeRight,
-    YGEdgeBottom,
-    YGEdgeStart,
-    YGEdgeEnd,
-    YGEdgeHorizontal,
-    YGEdgeVertical,
-    YGEdgeAll)
+typedef enum YGPositionType {
+  YGPositionTypeRelative,
+  YGPositionTypeAbsolute,
+  YGPositionTypeCount,
+} YGPositionType;
 
-YG_ENUM_SEQ_DECL(YGExperimentalFeature, YGExperimentalFeatureWebFlexBasis)
+typedef enum YGDimension {
+  YGDimensionWidth,
+  YGDimensionHeight,
+  YGDimensionCount,
+} YGDimension;
 
-YG_ENUM_SEQ_DECL(
-    YGFlexDirection,
-    YGFlexDirectionColumn,
-    YGFlexDirectionColumnReverse,
-    YGFlexDirectionRow,
-    YGFlexDirectionRowReverse)
+typedef enum YGJustify {
+  YGJustifyFlexStart,
+  YGJustifyCenter,
+  YGJustifyFlexEnd,
+  YGJustifySpaceBetween,
+  YGJustifySpaceAround,
+  YGJustifyCount,
+} YGJustify;
 
-YG_ENUM_SEQ_DECL(
-    YGJustify,
-    YGJustifyFlexStart,
-    YGJustifyCenter,
-    YGJustifyFlexEnd,
-    YGJustifySpaceBetween,
-    YGJustifySpaceAround,
-    YGJustifySpaceEvenly)
+typedef enum YGDirection {
+  YGDirectionInherit,
+  YGDirectionLTR,
+  YGDirectionRTL,
+  YGDirectionCount,
+} YGDirection;
 
-YG_ENUM_SEQ_DECL(
-    YGLogLevel,
-    YGLogLevelError,
-    YGLogLevelWarn,
-    YGLogLevelInfo,
-    YGLogLevelDebug,
-    YGLogLevelVerbose,
-    YGLogLevelFatal)
+typedef enum YGLogLevel {
+  YGLogLevelError,
+  YGLogLevelWarn,
+  YGLogLevelInfo,
+  YGLogLevelDebug,
+  YGLogLevelVerbose,
+  YGLogLevelCount,
+} YGLogLevel;
 
-YG_ENUM_SEQ_DECL(
-    YGMeasureMode,
-    YGMeasureModeUndefined,
-    YGMeasureModeExactly,
-    YGMeasureModeAtMost)
+typedef enum YGWrap {
+  YGWrapNoWrap,
+  YGWrapWrap,
+  YGWrapCount,
+} YGWrap;
 
-YG_ENUM_SEQ_DECL(YGNodeType, YGNodeTypeDefault, YGNodeTypeText)
+typedef enum YGOverflow {
+  YGOverflowVisible,
+  YGOverflowHidden,
+  YGOverflowScroll,
+  YGOverflowCount,
+} YGOverflow;
 
-YG_ENUM_SEQ_DECL(
-    YGOverflow,
-    YGOverflowVisible,
-    YGOverflowHidden,
-    YGOverflowScroll)
+typedef enum YGExperimentalFeature {
+  YGExperimentalFeatureRounding,
+  YGExperimentalFeatureWebFlexBasis,
+  YGExperimentalFeatureCount,
+} YGExperimentalFeature;
 
-YG_ENUM_SEQ_DECL(
-    YGPositionType,
-    YGPositionTypeStatic,
-    YGPositionTypeRelative,
-    YGPositionTypeAbsolute)
-
-YG_ENUM_DECL(
-    YGPrintOptions,
-    YGPrintOptionsLayout = 1,
-    YGPrintOptionsStyle = 2,
-    YGPrintOptionsChildren = 4)
-
-YG_ENUM_SEQ_DECL(
-    YGUnit,
-    YGUnitUndefined,
-    YGUnitPoint,
-    YGUnitPercent,
-    YGUnitAuto)
-
-YG_ENUM_SEQ_DECL(YGWrap, YGWrapNoWrap, YGWrapWrap, YGWrapWrapReverse)
+typedef enum YGAlign {
+  YGAlignAuto,
+  YGAlignFlexStart,
+  YGAlignCenter,
+  YGAlignFlexEnd,
+  YGAlignStretch,
+  YGAlignCount,
+} YGAlign;
 
 YG_EXTERN_C_END
-
-#undef YG_ENUM_DECL
-#undef YG_ENUM_SEQ_DECL
