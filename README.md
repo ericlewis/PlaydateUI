@@ -12,5 +12,11 @@ I've only built this project with a clion on macOS, I am not sure if it works on
 ### This library is under heavy evolution
 Building a ui framework is an iterative process, as is designing apis to be ergonomic. Everything here is subject to change. 
 
+## Architecture
+TODO
+
+## How does this work?
+TODO
+
 ## Examples
 TODO
