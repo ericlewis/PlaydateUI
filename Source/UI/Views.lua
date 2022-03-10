@@ -21,6 +21,9 @@ function _View:_getComputedLayout()
     return rect.new(left, top, self.node:getWidth(), self.node:getHeight())
 end
 
+function _View:_transformNode()
+end
+
 -- public
 function _View:body()
     print("must implement body.")

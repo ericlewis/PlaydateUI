@@ -5,9 +5,6 @@ import "Log"
 local gfx <const> = playdate.graphics
 local milli <const> = playdate.getCurrentTimeMilliseconds
 
-local flexDirectionColumn <const> = 0
-local flexDirectionRow <const> = 2
-
 function render(_rootView)
     local start = milli()
     gfx.clear()
@@ -29,26 +26,17 @@ function render(_rootView)
                 local node = yoga.node(view.text)
                 view.node = node
                 parentNode:appendChild(node)
-            elseif view.imageSize then
-                local width, height = table.unpack(view.imageSize)
-                local node = yoga.node()
-                node:setWidth(width)
-                node:setHeight(height)
-                view.node = node
-                parentNode:appendChild(node)
             else
                 local node = yoga.node()
                 view.node = node
+                view:_transformNode(node)
                 parentNode:appendChild(node)
             end
             table.insert(displayList, view)
         elseif view.children then
             local n = yoga.node()
-            if view.className == "HStack" then
-                n:setFlexDirection(flexDirectionRow)
-            else
-                n:setFlexDirection(flexDirectionColumn)
-            end
+            view.node = n
+            view:_transformNode(n)
             for idx = 1, #view.children do
                 makeDisplayList(n, view.children[idx])
             end
