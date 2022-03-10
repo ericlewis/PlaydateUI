@@ -23,35 +23,31 @@ function render(_rootView)
         seed = seed + 1
         if view.isLeaf then
             if view.text then
-                local node = yoga.node(view.text)
-                view.node = node
-                parentNode:appendChild(node)
+                view.node = yoga.node(view.text)
+                parentNode:appendChild(view.node)
             else
-                local node = yoga.node()
-                view.node = node
-                view:_transformNode(node)
-                parentNode:appendChild(node)
+                view.node = yoga.node()
+                view:_transformNode(view.node)
+                parentNode:appendChild(view.node)
             end
             table.insert(displayList, view)
         elseif view.children then
-            local n = yoga.node()
-            view.node = n
-            view:_transformNode(n)
+            view.node = yoga.node()
+            view:_transformNode(view.node)
             for idx = 1, #view.children do
-                makeDisplayList(n, view.children[idx])
+                makeDisplayList(view.node, view.children[idx])
             end
-            parentNode:appendChild(n)
+            parentNode:appendChild(view.node)
         else
-            local node = yoga.node()
-            view.node = node
+            view.node =  yoga.node()
             local _view = _bindState(view, seed)
             local body = _view:body()
             -- this is also where we should call on appear if needed.
             _view:_boxUpdatedState()
             if body then
-                makeDisplayList(node, body)
+                makeDisplayList(view.node, body)
             end
-            parentNode:appendChild(node)
+            parentNode:appendChild(view.node)
             table.insert(displayList, _view)
         end
     end
