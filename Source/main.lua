@@ -17,10 +17,10 @@ function TestView:body()
         Text("Count x2: " .. self.count * 2),
         VStack {
             Text(self.props.title),
+            Text(self.props.title),
             _if(self.count == 10) {
                 Image("Images/SignAvoid")
-            },
-            Text(self.props.title),
+            }
         }
     }
 end
