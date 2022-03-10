@@ -15,6 +15,12 @@ function Root(viewClosure)
         downButtonUp = function()
             render(viewClosure())
         end,
+        leftButtonUp = function()
+            render(viewClosure())
+        end,
+        rightButtonUp = function()
+            render(viewClosure())
+        end,
     }
     playdate.stop()
     playdate.inputHandlers.push(handlers)

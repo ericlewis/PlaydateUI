@@ -62,14 +62,13 @@ function render(_rootView)
                 onAppeared[seed] = true
             end
             if focused and focusable then
-                -- if we are the focused seed, then allow action through, if one was taken.
                 if  playdate.buttonJustReleased(playdate.kButtonB) then
                     _view:buttonPressed(playdate.kButtonB)
                 elseif playdate.buttonJustReleased(playdate.kButtonA) then
                     _view:buttonPressed(playdate.kButtonA)
-                elseif playdate.buttonJustReleased(playdate.kButtonUp) then
+                elseif playdate.buttonJustReleased(playdate.kButtonLeft) or playdate.buttonJustReleased(playdate.kButtonUp) then
                     focusedIndex = focusedIndex - 1
-                elseif playdate.buttonJustReleased(playdate.kButtonDown) then
+                elseif playdate.buttonJustReleased(playdate.kButtonRight) or playdate.buttonJustReleased(playdate.kButtonDown) then
                     focusedIndex = focusedIndex + 1
                 end
             end
