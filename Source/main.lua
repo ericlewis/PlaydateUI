@@ -11,7 +11,7 @@ function TestView:body()
         Text("Count x2: " .. self.count * 2),
         VStack {
             Text(self.props.title),
-            _if(self.count == 10) {
+            _if(self.count > 10) {
                 Image("Images/SignAvoid")
             }
         }
@@ -33,6 +33,9 @@ function ContentView:body()
         TestView({title = "testing"..self.count}),
         Image("Images/SignAvoid")
     }
+end
+function ContentView:onAppear()
+    self.count = self.count + 420
 end
 function ContentView:buttonPressed(button)
     if button == playdate.kButtonA then
