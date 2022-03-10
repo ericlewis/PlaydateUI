@@ -35,7 +35,8 @@ function ContentView:body()
     }
 end
 function ContentView:onAppear()
-    self.count = self.count + 420
+    local topStoriesCount = #json.decode(playdate.simulator.getURL("https://hacker-news.firebaseio.com/v0/topstories.json"))
+    self.count = topStoriesCount
 end
 function ContentView:buttonPressed(button)
     if button == playdate.kButtonA then
