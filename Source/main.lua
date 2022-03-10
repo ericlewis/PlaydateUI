@@ -3,6 +3,7 @@ import "UI/Views/Root"
 import "UI/Views/Layout"
 import "UI/Views/Text"
 import "UI/Views/Image"
+import "UI/Views/Conditionals"
 
 View('TestView', { count = 0 })
 function TestView:body()
@@ -12,14 +13,14 @@ function TestView:body()
     if playdate.buttonJustReleased(playdate.kButtonB) then
         self.count = self.count - 1
     end
-    return VStack {
-        Text("Counting: " .. self.count * 2),
-        Text("Counting2: " .. self.count * 3),
-        HStack {
-            VStack {
-                Text("wee")
+    return HStack {
+        Text("Count x2: " .. self.count * 2),
+        VStack {
+            Text(self.props.title),
+            _if(self.count == 10) {
+                Image("Images/SignAvoid")
             },
-            Text(self.props.title)
+            Text(self.props.title),
         }
     }
 end
@@ -34,8 +35,7 @@ function ContentView:body()
         self.count = self.count - 1
     end
     return HStack {
-        Text("Count: "..self.count * 10),
-        Text("Count2: "..self.count),
+        Text("Count: "..self.count),
         TestView({title = "testing"..self.count}),
         Image("Images/SignAvoid")
     }
