@@ -8,6 +8,7 @@ local milli <const> = playdate.getCurrentTimeMilliseconds
 local focusedIndex
 local focusables = {}
 local focusablesLocked = false
+local onAppeared = {}
 function render(_rootView)
     local start = milli()
     gfx.clear()
@@ -56,7 +57,10 @@ function render(_rootView)
             view.node =  yoga.node()
             local _view = _bindState(view, seed)
             _view.env = { focused = (focused) }
-            if _view.onAppear then _view:onAppear() end
+            if _view.onAppear and not onAppeared[seed] then
+                _view:onAppear()
+                onAppeared[seed] = true
+            end
             if focused and focusable then
                 -- if we are the focused seed, then allow action through, if one was taken.
                 if  playdate.buttonJustReleased(playdate.kButtonB) then
