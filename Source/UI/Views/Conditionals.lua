@@ -7,7 +7,7 @@ function switch(value)
         end
         if conditions.default then
             return conditions.default
-        else
+        elseif value ~= false then
             print(table.concat({"Unhandled case: ", tostring(value)}))
         end
     end

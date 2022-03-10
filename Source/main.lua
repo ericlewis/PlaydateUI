@@ -8,10 +8,10 @@ import "UI/Views/Conditionals"
 View('TestView', { count = 0 })
 function TestView:body()
     return HStack {
-        Text("Count x2: " .. self.count * 2),
+        Text("Count x2: "..self.count * 2),
         VStack {
             Text(self.props.title),
-            _if(self.count > 10) {
+            _if(self.count > 2) {
                 Image("Images/SignAvoid")
             }
         }
@@ -46,5 +46,4 @@ function ContentView:buttonPressed(button)
     end
 end
 
--- Create our root node & state then start listening for events.
 Root(ContentView)
